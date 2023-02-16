@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import styles from './PostEditor.module.scss';
 
-const PostEditor = () => {
+const PostEditor = ({ changeInputTitleField, changeInputDescriptionField }) => {
     const [titleFieldShown, setTitleFieldShown] = useState(false);
     const [imgFieldShown, setImgFieldShown] = useState(false);
-
+    const title = useSelector(state => state.title)
+    const description = useSelector(state => state.description)
+   
     const handleInputTitleChange = (e) => {
         if (e.target.checked) {
             setTitleFieldShown(true);
@@ -25,8 +28,21 @@ const PostEditor = () => {
     return (
         <form className={styles['post-editor']}>
             <h2 className={styles['post-editor__title']}>Settings</h2>
-            <input className={styles['post-editor__input']} type="text" placeholder="Title" required/>
-            <textarea className={styles['post-editor__input']} placeholder="Some post text" required></textarea>
+            <input 
+                className={styles['post-editor__input']} 
+                type="text" 
+                placeholder="Title" 
+                value={title}
+                onChange={changeInputTitleField}
+                required
+            />
+            <textarea 
+                className={styles['post-editor__input']} 
+                placeholder="Some post text"
+                value={description}
+                onChange={changeInputDescriptionField}
+                required>
+            </textarea>
             <div className={styles['switch-wrapper']}>
                 <label className={styles['switch']}>
                     <input className={styles['switch__toggle']} type="checkbox" onChange={handleInputTitleChange} />
