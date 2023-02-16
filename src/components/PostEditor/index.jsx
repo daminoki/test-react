@@ -7,11 +7,13 @@ import styles from './PostEditor.module.scss';
 
 const PostEditor = () => {
     const [isShowHeader, setIsShowHeader] = useState(false);
-    const [imgFieldShown, setImgFieldShown] = useState(false);
+    const [isShowImg, setIsShowImg] = useState(false);
+
     const dispatch = useDispatch();
     const title = useSelector(state => state.title)
     const description = useSelector(state => state.description)
     const headerTitle = useSelector(state => state.headerTitle)
+    let imgUrl = useSelector(state => state.imgUrl)
 
     const changeInputTitleField = (e) => {
         dispatch({type: 'INPUT_TITLE_CHANGE', payload: e.target.value})
@@ -33,15 +35,22 @@ const PostEditor = () => {
         }
     }
 
+    const onImageInputChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            imgUrl = URL.createObjectURL(e.target.files[0]);
+        }
+        dispatch({type: 'INPUT_IMG_CHANGE', payload: imgUrl})
+    }
+
     useEffect(() => {
         dispatch({type: 'TOGGLE_HEADER', payload: isShowHeader})
     }, [isShowHeader])
 
-    const handleInputImgChange = (e) => {
+    const toggleImgShow = (e) => {
         if (e.target.checked) {
-            setImgFieldShown(true);
+            setIsShowImg(true);
         } else {
-            setImgFieldShown(false);
+            setIsShowImg(false);
         }
     }
 
@@ -73,12 +82,12 @@ const PostEditor = () => {
             {isShowHeader ? <input type="text" className={styles['post-editor__input']} value={headerTitle} onChange={changeInputHeaderField} placeholder="Header" /> : ''}
             <div className={styles['switch-wrapper']}>
                 <label className={styles['switch']}>
-                    <input className={styles['switch__toggle']} type="checkbox" onChange={handleInputImgChange} />
+                    <input className={styles['switch__toggle']} type="checkbox" onChange={toggleImgShow} />
                     <span className={styles['switch__round']}></span>
                 </label>
                 <span>image</span>
             </div>
-            {imgFieldShown ? <input type="file" /> : ''}
+            {isShowImg ? <input type="file" onChange={onImageInputChange} /> : ''}
             <button className={styles['post-editor__save-btn']} type="submit">Save</button>
         </form>
     );
