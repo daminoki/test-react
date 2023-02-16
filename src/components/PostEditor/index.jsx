@@ -22,7 +22,6 @@ const PostEditor = () => {
         }
     }
 
-
     return (
         <form className={styles['post-editor']}>
             <h2 className={styles['post-editor__title']}>Settings</h2>
