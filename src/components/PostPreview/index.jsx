@@ -5,13 +5,18 @@ import styles from './PostPreview.module.scss';
 const PostPreview = () => {
     const title = useSelector(state => state.title)
     const description = useSelector(state => state.description)
+    const headerTitle = useSelector(state => state.headerTitle)
+    const isShowHeader = useSelector(state => state.isShowHeader)
 
     return (
         <div className={styles['post-preview']}>
-            <div className={styles['post-preview__wrapper']}>
-                <h2 className={styles['post-preview__title']}>{title ? title : 'Title'}</h2>
-                <p className={styles['post-preview__description']}>{description ? description : 'Some post text'}</p>
-            </div>
+            <article className={styles.post}>
+                {isShowHeader ? <div className={styles.post__header}>{headerTitle}</div> : ''}
+                <div className={styles['post__main-info-wrapper']}>
+                    <h2 className={styles.post__title}>{title}</h2>
+                    <p className={styles.post__description}>{description}</p>
+                </div>
+            </article>
         </div>
     )
 }
