@@ -44,7 +44,8 @@ const PostEditor = () => {
 
     useEffect(() => {
         dispatch({type: 'TOGGLE_HEADER', payload: isShowHeader})
-    }, [isShowHeader])
+        dispatch({type: 'TOGGLE_IMG', payload: isShowImg})
+    }, [isShowHeader, isShowImg])
 
     const toggleImgShow = (e) => {
         if (e.target.checked) {

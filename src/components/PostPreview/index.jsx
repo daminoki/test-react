@@ -8,12 +8,13 @@ const PostPreview = () => {
     const headerTitle = useSelector(state => state.headerTitle)
     const isShowHeader = useSelector(state => state.isShowHeader)
     const imgUrl = useSelector(state => state.imgUrl)
+    const isShowImg = useSelector(state => state.isShowImg)
 
     return (
         <div className={styles['post-preview']}>
             <article className={styles.post}>
                 {isShowHeader ? <div className={styles.post__header}>{headerTitle}</div> : ''}
-                {imgUrl ? <img src={imgUrl} alt='Img' /> : ''}
+                {(isShowImg && imgUrl) ? <img src={imgUrl} alt='Img' /> : ''}
                 <div className={styles['post__main-info-wrapper']}>
                     <h2 className={styles.post__title}>{title}</h2>
                     <p className={styles.post__description}>{description}</p>

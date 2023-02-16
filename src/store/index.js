@@ -5,7 +5,8 @@ const defaultState = {
     description: 'Some post text',
     headerTitle: 'Header',
     isShowHeader: false,
-    imgUrl: ''
+    imgUrl: '',
+    isShowImg: false
   }
   
 const reducer = (state = defaultState, action) => {
@@ -24,6 +25,9 @@ const reducer = (state = defaultState, action) => {
         
         case 'INPUT_IMG_CHANGE':
             return {...state, imgUrl: action.payload}
+        
+        case 'TOGGLE_IMG':
+            return {...state, isShowImg: action.payload}
         
         default:
             return state;
