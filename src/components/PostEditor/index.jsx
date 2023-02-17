@@ -1,19 +1,15 @@
 import { useDispatch } from 'react-redux';
-
-import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import styles from './PostEditor.module.scss';
 
 const PostEditor = () => {
-    const [isShowHeader, setIsShowHeader] = useState(false);
-    const [isShowImg, setIsShowImg] = useState(false);
-
     const dispatch = useDispatch();
     const title = useSelector(state => state.title)
     const description = useSelector(state => state.description)
     const headerTitle = useSelector(state => state.headerTitle)
-    let imgUrl = useSelector(state => state.imgUrl)
+    const isShowHeaderState = useSelector(state => state.isShowHeader)
+    const isShowImgState = useSelector(state => state.isShowImg)
 
     const changeInputTitleField = (e) => {
         dispatch({type: 'INPUT_TITLE_CHANGE', payload: e.target.value})
@@ -26,33 +22,38 @@ const PostEditor = () => {
     const changeInputHeaderField = (e) => {
         dispatch({type: 'INPUT_HEADER_CHANGE', payload: e.target.value})
     }
-   
-    const toggleHeaderShow = (e) => {
-        if (e.target.checked) {
-            setIsShowHeader(true);
-        } else {
-            setIsShowHeader(false);
-        }
-    }
 
     const onImageInputChange = (e) => {
-        if (e.target.files && e.target.files[0]) {
-            imgUrl = URL.createObjectURL(e.target.files[0]);
-        }
-        dispatch({type: 'INPUT_IMG_CHANGE', payload: imgUrl})
+        const imgPath = e.target.files[0]
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            dispatch({type: 'INPUT_IMG_CHANGE', payload: reader.result})
+        }, false);
+
+        if (imgPath) {
+            reader.readAsDataURL(imgPath);
+        }     
     }
 
-    useEffect(() => {
-        dispatch({type: 'TOGGLE_HEADER', payload: isShowHeader})
-        dispatch({type: 'TOGGLE_IMG', payload: isShowImg})
-    }, [isShowHeader, isShowImg])
+    const toggleHeaderShow = (e) => {
+        if (e.target.checked) {
+            dispatch({type: 'TOGGLE_HEADER', payload: true})
+        } else {
+            dispatch({type: 'TOGGLE_HEADER', payload: false})
+        }
+    }
 
     const toggleImgShow = (e) => {
         if (e.target.checked) {
-            setIsShowImg(true);
+            dispatch({type: 'TOGGLE_IMG', payload: true})
         } else {
-            setIsShowImg(false);
+            dispatch({type: 'TOGGLE_IMG', payload: false})
         }
+    }
+
+    const handleSubmit = () => {
+        dispatch({ type: 'SAVE' })
     }
 
     return (
@@ -75,21 +76,21 @@ const PostEditor = () => {
             </textarea>
             <div className={styles['switch-wrapper']}>
                 <label className={styles['switch']}>
-                    <input className={styles['switch__toggle']} type="checkbox" onChange={toggleHeaderShow} />
+                    <input className={styles['switch__toggle']} type="checkbox" checked={isShowHeaderState} onChange={toggleHeaderShow} />
                     <span className={styles['switch__round']}></span>
                 </label>
                 <span>header</span>
             </div>
-            {isShowHeader ? <input type="text" className={styles['post-editor__input']} value={headerTitle} onChange={changeInputHeaderField} placeholder="Header" /> : ''}
+            {isShowHeaderState ? <input type="text" className={styles['post-editor__input']} value={headerTitle} onChange={changeInputHeaderField} placeholder="Header" /> : ''}
             <div className={styles['switch-wrapper']}>
                 <label className={styles['switch']}>
-                    <input className={styles['switch__toggle']} type="checkbox" onChange={toggleImgShow} />
+                    <input className={styles['switch__toggle']} type="checkbox" checked={isShowImgState} onChange={toggleImgShow} />
                     <span className={styles['switch__round']}></span>
                 </label>
                 <span>image</span>
             </div>
-            {isShowImg ? <input type="file" onChange={onImageInputChange} /> : ''}
-            <button className={styles['post-editor__save-btn']} type="submit">Save</button>
+            {isShowImgState ? <input type="file" onChange={onImageInputChange} /> : ''}
+            <button className={styles['post-editor__save-btn']} type="button" onClick={handleSubmit}>Save</button>
         </form>
     );
 }

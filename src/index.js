@@ -5,12 +5,12 @@ import { Provider } from 'react-redux';
 import './styles/index.css';
 import './styles/reset.scss';
 import App from './App';
-import store from './store'
+import postStore from './store/post'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <Provider store={store}>
+     <Provider store={postStore}>
         <App />
       </Provider>
   </React.StrictMode>

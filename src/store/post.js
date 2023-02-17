@@ -1,5 +1,7 @@
 import { createStore } from 'redux';
 
+const persistStore = localStorage.getItem('persistPost');
+
 const defaultState = {
     title: 'Title',
     description: 'Some post text',
@@ -7,9 +9,11 @@ const defaultState = {
     isShowHeader: false,
     imgUrl: '',
     isShowImg: false
-  }
+}
+
+const postState = persistStore ? JSON.parse(persistStore) : defaultState
   
-const reducer = (state = defaultState, action) => {
+const reducer = (state = postState, action) => {
     switch (action.type) {
         case 'INPUT_TITLE_CHANGE':
             return {...state, title: action.payload}
@@ -28,6 +32,10 @@ const reducer = (state = defaultState, action) => {
         
         case 'TOGGLE_IMG':
             return {...state, isShowImg: action.payload}
+
+        case "SAVE":
+            localStorage.setItem('persistPost', JSON.stringify(state))
+            return {...state}
         
         default:
             return state;
