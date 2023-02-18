@@ -1,0 +1,22 @@
+.snackbar {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    background-color: #2196F3;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    visibility: hidden;
+
+    &_opened {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0s linear 0s, opacity .3s;
+    }
+
+    &_closed {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s linear .3s, opacity 300ms
+    }
+}

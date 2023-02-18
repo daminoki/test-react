@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import styles from './PostEditor.module.scss';
 
-const PostEditor = () => {
+const PostEditor = ({ handleSaveBtn }) => {
     const dispatch = useDispatch();
     const title = useSelector(state => state.title)
     const description = useSelector(state => state.description)
@@ -54,6 +54,7 @@ const PostEditor = () => {
 
     const handleSubmit = () => {
         dispatch({ type: 'SAVE' })
+        handleSaveBtn();
     }
 
     return (
