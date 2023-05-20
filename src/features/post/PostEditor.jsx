@@ -8,6 +8,8 @@ import {
     toggleImg,
     savePost
 } from './postSlice';
+
+import Button from 'react-bootstrap/Button';
 import styles from './PostEditor.module.scss';
 
 const PostEditor = ({ handleSaveBtn }) => {
@@ -66,7 +68,7 @@ const PostEditor = ({ handleSaveBtn }) => {
                 <span>image</span>
             </div>
             {isShowImg ? <input type="file" accept="image/*" onChange={onImageInputChange} /> : ''}
-            <button className={styles['post-editor__save-btn']} type="button" onClick={handleSubmit}>Save</button>
+            <Button variant='primary' style={{width:'fit-content'}} onClick={handleSubmit}>Save</Button>
         </form>
     );
 }
