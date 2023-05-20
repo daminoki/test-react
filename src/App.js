@@ -2,8 +2,8 @@ import { useSnackbar } from './hooks/useAlert';
 
 import './App.css';
 
-import PostEditor from './components/PostEditor';
-import PostPreview from './components/PostPreview';
+import PostEditor from './features/post/PostEditor';
+import PostPreview from './features/post/PostPreview';
 import Snackbar from './components/Snackbar';
 
 function App() {
