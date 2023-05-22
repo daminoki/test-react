@@ -17,11 +17,11 @@ function App() {
 
   return (
       <Container fluid style={{padding:'0', overflow:'hidden'}}>
-        <Row>
-          <Col style={{padding:'0'}}>
+        <Row style={{height:'100vh'}}>
+          <Col style={{padding:'0', height:'100vh'}}>
             <PostEditor handleSaveBtn={handleSaveBtn} />
           </Col>
-          <Col style={{padding:'0'}}>
+          <Col style={{padding:'0', height:'100vh'}}>
             <PostPreview />
           </Col>
         </Row>
