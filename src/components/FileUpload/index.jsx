@@ -1,20 +1,23 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setImg } from '../../features/post/postSlice';
 
 import styles from './FileUpload.module.scss';
 
 function FileUpload() {
-    const [file, setFile] = useState(null);
-    const[imageUrl, setImageUrl] = useState(""); 
+    const dispatch = useDispatch()
 
     const handleDrop = (e) => {
         e.preventDefault()
-        const imageFile = e.dataTransfer.files[0];
+        const imgPath = e.dataTransfer.files[0]
+        const reader = new FileReader();
 
-        setFile(imageFile)
+        reader.addEventListener("load", function () {
+            dispatch(setImg(reader.result))
+        }, false);
 
-        if (file !== null) {
-            setImageUrl(URL.createObjectURL(file))
-            console.log(imageUrl)
+        if (imgPath) {
+            reader.readAsDataURL(imgPath);
         }
     }
 
@@ -28,8 +31,8 @@ function FileUpload() {
 
     return (
         <div className={styles['file-upload']} onDrop={handleDrop} onDragOver={handleDragOver}>
-            <div draggable="true" onDragStart={handleDragStart}>
-                
+            <div className={styles['file-upload__wrapper']} draggable="true" onDragStart={handleDragStart}>
+                <p>Drop your image here!</p>
             </div>
         </div>
     )
