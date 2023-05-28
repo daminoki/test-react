@@ -9,6 +9,8 @@ import {
     savePost
 } from './postSlice';
 
+import FileUpload from '../../components/FileUpload';
+
 import Button from 'react-bootstrap/Button';
 import styles from './PostEditor.module.scss';
 
@@ -18,6 +20,7 @@ const PostEditor = ({ handleSaveBtn }) => {
 
     const onImageInputChange = (e) => {
         const imgPath = e.target.files[0]
+        console.log(imgPath)
         const reader = new FileReader();
 
         reader.addEventListener("load", function () {
@@ -67,7 +70,7 @@ const PostEditor = ({ handleSaveBtn }) => {
                 </label>
                 <span>image</span>
             </div>
-            {isShowImg ? <input type="file" accept="image/*" onChange={onImageInputChange} /> : ''}
+            {isShowImg ? <FileUpload  onChange={onImageInputChange} /> : ''}
             <Button variant='primary' style={{width:'fit-content'}} onClick={handleSubmit}>Save</Button>
         </form>
     );

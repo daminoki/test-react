@@ -4,7 +4,6 @@ import styles from './PostPreview.module.scss';
 
 const PostPreview = () => {
     const { title, description, headerTitle, isShowHeader, imgUrl, isShowImg } = useSelector(state => state.post.post)
-    console.log(imgUrl)
 
     return (
         <div className={styles['post-preview']}>
